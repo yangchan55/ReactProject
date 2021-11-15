@@ -9,6 +9,7 @@ using ReactProject.Data;
 using Microsoft.EntityFrameworkCore;
 using ReactProject.Model;
 using Microsoft.AspNetCore.Identity;
+using ReactProject.jwt;
 
 namespace ReactProject
 {
@@ -40,6 +41,7 @@ namespace ReactProject
 			.AddDefaultTokenProviders()
 			.AddEntityFrameworkStores<AppContext>();
 
+			services.AddSingleton<ITokenService, JwtTokenService>();
 			services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, AppuserClaimspincipalFactory>();
 
 			services.AddControllersWithViews();
