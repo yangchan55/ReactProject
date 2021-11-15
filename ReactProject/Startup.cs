@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ReactProject.Data;
+using Microsoft.EntityFrameworkCore;
+using ReactProject.Model;
+using Microsoft.AspNetCore.Identity;
 
 namespace ReactProject
 {
@@ -20,6 +24,23 @@ namespace ReactProject
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddDbContext<AppContext>(option =>
+				option.UseSqlServer(
+					Configuration.GetConnectionString("DefaultConnection")));
+
+			services.AddIdentity<AppUser, AppRole>(options =>
+			{
+				options.Password.RequireDigit = true;
+				options.Password.RequireLowercase = true;
+				options.Password.RequireNonAlphanumeric = false;
+				options.Password.RequireUppercase = false;
+				options.Password.RequiredLength = 6;
+				options.Password.RequiredUniqueChars = 1;
+			})
+			.AddDefaultTokenProviders()
+			.AddEntityFrameworkStores<AppContext>();
+
+			services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, AppuserClaimspincipalFactory>();
 
 			services.AddControllersWithViews();
 
@@ -47,6 +68,9 @@ namespace ReactProject
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
 			app.UseSpaStaticFiles();
+
+			app.UseAuthentication();
+			app.UseAuthorization();
 
 			app.UseRouting();
 
