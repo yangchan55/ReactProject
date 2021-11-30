@@ -8,9 +8,11 @@ using ReactProject.Model;
 
 namespace ReactProject.Data
 {
-    public class AppContext : IdentityDbContext<AppUser>
+    public class AppUserContext : IdentityDbContext<AppUser, AppRole, string, 
+        AppUserClaim, AppUserRole, AppUserLogin, 
+        AppUserRoleClaim, AppUserToken>
     {
-        public AppContext(DbContextOptions<AppContext> options) : base(options)
+        public AppUserContext(DbContextOptions<AppUserContext> options) : base(options)
         { 
         }
 

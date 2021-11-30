@@ -25,7 +25,7 @@ namespace ReactProject
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddDbContext<AppContext>(option =>
+			services.AddDbContext<AppUserContext>(option =>
 				option.UseSqlServer(
 					Configuration.GetConnectionString("DefaultConnection")));
 
@@ -39,7 +39,7 @@ namespace ReactProject
 				options.Password.RequiredUniqueChars = 1;
 			})
 			.AddDefaultTokenProviders()
-			.AddEntityFrameworkStores<AppContext>();
+			.AddEntityFrameworkStores<AppUserContext>();
 
 			services.AddSingleton<ITokenService, JwtTokenService>();
 			services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, AppuserClaimspincipalFactory>();
